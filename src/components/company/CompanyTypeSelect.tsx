@@ -1,17 +1,5 @@
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { UseFormReturn } from "react-hook-form";
 import { CompanyFormValues } from "./types";
 
@@ -19,7 +7,7 @@ interface CompanyTypeSelectProps {
   form: UseFormReturn<CompanyFormValues>;
 }
 
-export const CompanyTypeSelect = ({ form }: CompanyTypeSelectProps) => {
+export function CompanyTypeSelect({ form }: CompanyTypeSelectProps) {
   return (
     <FormField
       control={form.control}
@@ -43,4 +31,4 @@ export const CompanyTypeSelect = ({ form }: CompanyTypeSelectProps) => {
       )}
     />
   );
-};
+}

@@ -1,10 +1,4 @@
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { CompanyFormValues } from "./types";
@@ -13,7 +7,7 @@ interface CompanyBasicInfoProps {
   form: UseFormReturn<CompanyFormValues>;
 }
 
-export const CompanyBasicInfo = ({ form }: CompanyBasicInfoProps) => {
+export function CompanyBasicInfo({ form }: CompanyBasicInfoProps) {
   return (
     <>
       <FormField
@@ -75,4 +69,4 @@ export const CompanyBasicInfo = ({ form }: CompanyBasicInfoProps) => {
       />
     </>
   );
-};
+}
