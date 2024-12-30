@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import { CompanyCreationForm } from "./components/CompanyCreationForm";
 import { supabase } from "./integrations/supabase/client";
 
@@ -89,6 +90,7 @@ const App = () => {
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:id" element={<BlogPost />} />
                 </>
               )}
             </Routes>

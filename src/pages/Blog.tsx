@@ -41,7 +41,7 @@ const blogs = [
 ];
 
 const Blog = () => {
-  const [expandedBlog, setExpandedBlog] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
@@ -123,16 +123,13 @@ const Blog = () => {
                     <span>{blog.readTime}</span>
                   </div>
                 </div>
-                {expandedBlog === blog.id && (
-                  <p className="text-sm text-muted-foreground">{blog.content}</p>
-                )}
               </CardContent>
               <CardFooter>
                 <Button 
                   variant="ghost" 
-                  onClick={() => setExpandedBlog(expandedBlog === blog.id ? null : blog.id)}
+                  onClick={() => navigate(`/blog/${blog.id}`)}
                 >
-                  {expandedBlog === blog.id ? "Show less" : "Read more →"}
+                  Read more →
                 </Button>
               </CardFooter>
             </Card>
@@ -140,7 +137,6 @@ const Blog = () => {
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="border-t py-12">
         <div className="container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
