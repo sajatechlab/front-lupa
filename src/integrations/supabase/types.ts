@@ -29,10 +29,13 @@ export type Database = {
       }
       buyers: {
         Row: {
+          accounting_system_id: number | null
           address: string | null
+          city_id: number | null
+          contributor_type_id: number | null
           created_at: string
           email: string | null
-          fiscal_responsibility: string | null
+          fiscal_responsibility_id: number | null
           id: string
           name: string
           nit: string
@@ -40,10 +43,13 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          accounting_system_id?: number | null
           address?: string | null
+          city_id?: number | null
+          contributor_type_id?: number | null
           created_at?: string
           email?: string | null
-          fiscal_responsibility?: string | null
+          fiscal_responsibility_id?: number | null
           id?: string
           name: string
           nit: string
@@ -51,17 +57,49 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          accounting_system_id?: number | null
           address?: string | null
+          city_id?: number | null
+          contributor_type_id?: number | null
           created_at?: string
           email?: string | null
-          fiscal_responsibility?: string | null
+          fiscal_responsibility_id?: number | null
           id?: string
           name?: string
           nit?: string
           phone?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "buyers_accounting_system_id_fkey"
+            columns: ["accounting_system_id"]
+            isOneToOne: false
+            referencedRelation: "accounting_systems"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "buyers_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "buyers_contributor_type_id_fkey"
+            columns: ["contributor_type_id"]
+            isOneToOne: false
+            referencedRelation: "contributor_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "buyers_fiscal_responsibility_id_fkey"
+            columns: ["fiscal_responsibility_id"]
+            isOneToOne: false
+            referencedRelation: "fiscal_responsibilities"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       cities: {
         Row: {
@@ -295,48 +333,71 @@ export type Database = {
       }
       invoices: {
         Row: {
+          buyer_nit: string
           company_id: string
           created_at: string
           cufe: string
           due_date: string
           id: string
           invoice_number: string
+          invoice_prefix: string
           issue_date: string
           payment_method: string
           subtotal: number
           total_amount: number
           total_tax: number
           updated_at: string
+          vendor_nit: string
         }
         Insert: {
+          buyer_nit: string
           company_id: string
           created_at?: string
           cufe: string
           due_date: string
           id?: string
           invoice_number: string
+          invoice_prefix: string
           issue_date: string
           payment_method: string
           subtotal: number
           total_amount: number
           total_tax: number
           updated_at?: string
+          vendor_nit: string
         }
         Update: {
+          buyer_nit?: string
           company_id?: string
           created_at?: string
           cufe?: string
           due_date?: string
           id?: string
           invoice_number?: string
+          invoice_prefix?: string
           issue_date?: string
           payment_method?: string
           subtotal?: number
           total_amount?: number
           total_tax?: number
           updated_at?: string
+          vendor_nit?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_buyer_nit"
+            columns: ["buyer_nit"]
+            isOneToOne: false
+            referencedRelation: "buyers"
+            referencedColumns: ["nit"]
+          },
+          {
+            foreignKeyName: "fk_vendor_nit"
+            columns: ["vendor_nit"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["nit"]
+          },
           {
             foreignKeyName: "invoices_company_id_fkey"
             columns: ["company_id"]
@@ -452,10 +513,13 @@ export type Database = {
       }
       vendors: {
         Row: {
+          accounting_system_id: number | null
           address: string | null
+          city_id: number | null
+          contributor_type_id: number | null
           created_at: string
           email: string | null
-          fiscal_responsibility: string | null
+          fiscal_responsibility_id: number | null
           id: string
           name: string
           nit: string
@@ -463,10 +527,13 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          accounting_system_id?: number | null
           address?: string | null
+          city_id?: number | null
+          contributor_type_id?: number | null
           created_at?: string
           email?: string | null
-          fiscal_responsibility?: string | null
+          fiscal_responsibility_id?: number | null
           id?: string
           name: string
           nit: string
@@ -474,17 +541,49 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          accounting_system_id?: number | null
           address?: string | null
+          city_id?: number | null
+          contributor_type_id?: number | null
           created_at?: string
           email?: string | null
-          fiscal_responsibility?: string | null
+          fiscal_responsibility_id?: number | null
           id?: string
           name?: string
           nit?: string
           phone?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "vendors_accounting_system_id_fkey"
+            columns: ["accounting_system_id"]
+            isOneToOne: false
+            referencedRelation: "accounting_systems"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendors_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendors_contributor_type_id_fkey"
+            columns: ["contributor_type_id"]
+            isOneToOne: false
+            referencedRelation: "contributor_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendors_fiscal_responsibility_id_fkey"
+            columns: ["fiscal_responsibility_id"]
+            isOneToOne: false
+            referencedRelation: "fiscal_responsibilities"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
