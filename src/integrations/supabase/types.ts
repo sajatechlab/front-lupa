@@ -27,6 +27,42 @@ export type Database = {
         }
         Relationships: []
       }
+      buyers: {
+        Row: {
+          address: string | null
+          created_at: string
+          email: string | null
+          fiscal_responsibility: string | null
+          id: string
+          name: string
+          nit: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          email?: string | null
+          fiscal_responsibility?: string | null
+          id?: string
+          name: string
+          nit: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          email?: string | null
+          fiscal_responsibility?: string | null
+          id?: string
+          name?: string
+          nit?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cities: {
         Row: {
           department_id: number | null
@@ -172,6 +208,144 @@ export type Database = {
         }
         Relationships: []
       }
+      invoice_files: {
+        Row: {
+          created_at: string
+          id: string
+          invoice_id: string
+          pdf_url: string | null
+          xml_url: string | null
+          zip_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          invoice_id: string
+          pdf_url?: string | null
+          xml_url?: string | null
+          zip_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          invoice_id?: string
+          pdf_url?: string | null
+          xml_url?: string | null
+          zip_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_files_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoice_items: {
+        Row: {
+          created_at: string
+          description: string | null
+          discount: number | null
+          id: string
+          invoice_id: string
+          item_name: string
+          quantity: number
+          tax_percent: number
+          tax_value: number
+          total_item_value: number
+          unit_value: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          discount?: number | null
+          id?: string
+          invoice_id: string
+          item_name: string
+          quantity: number
+          tax_percent: number
+          tax_value: number
+          total_item_value: number
+          unit_value: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          discount?: number | null
+          id?: string
+          invoice_id?: string
+          item_name?: string
+          quantity?: number
+          tax_percent?: number
+          tax_value?: number
+          total_item_value?: number
+          unit_value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          company_id: string
+          created_at: string
+          cufe: string
+          due_date: string
+          id: string
+          invoice_number: string
+          issue_date: string
+          payment_method: string
+          subtotal: number
+          total_amount: number
+          total_tax: number
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          cufe: string
+          due_date: string
+          id?: string
+          invoice_number: string
+          issue_date: string
+          payment_method: string
+          subtotal: number
+          total_amount: number
+          total_tax: number
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          cufe?: string
+          due_date?: string
+          id?: string
+          invoice_number?: string
+          issue_date?: string
+          payment_method?: string
+          subtotal?: number
+          total_amount?: number
+          total_tax?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -275,6 +449,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      vendors: {
+        Row: {
+          address: string | null
+          created_at: string
+          email: string | null
+          fiscal_responsibility: string | null
+          id: string
+          name: string
+          nit: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          email?: string | null
+          fiscal_responsibility?: string | null
+          id?: string
+          name: string
+          nit: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          email?: string | null
+          fiscal_responsibility?: string | null
+          id?: string
+          name?: string
+          nit?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
     }
     Views: {
