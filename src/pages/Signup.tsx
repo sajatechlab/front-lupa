@@ -1,10 +1,45 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Github, Twitter } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Github } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate('/');
+      }
+    };
+    checkSession();
+  }, [navigate]);
+
+  const handleMicrosoftSignup = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'azure',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      if (error) throw error;
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to sign up with Microsoft. Please try again.",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Promotion Banner */}
@@ -56,13 +91,7 @@ const Signup = () => {
             </div>
 
             <div className="mt-4 space-y-2">
-              <Button variant="outline" className="w-full" type="button">
-                <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M21.35,11.1H12.18V13.83H18.69C18.36,17.64 15.19,19.27 12.19,19.27C8.36,19.27 5,16.25 5,12C5,7.9 8.2,4.73 12.2,4.73C15.29,4.73 17.1,6.7 17.1,6.7L19,4.72C19,4.72 16.56,2 12.1,2C6.42,2 2.03,6.8 2.03,12C2.03,17.05 6.16,22 12.25,22C17.6,22 21.5,18.33 21.5,12.91C21.5,11.76 21.35,11.1 21.35,11.1V11.1Z" />
-                </svg>
-                Registrarse con Google
-              </Button>
-              <Button variant="outline" className="w-full" type="button">
+              <Button variant="outline" className="w-full" type="button" onClick={handleMicrosoftSignup}>
                 <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                   <path fill="currentColor" d="M24 4C12.954 4 4 12.954 4 24c0 8.727 5.371 16.192 12.974 19.391.021-.044.045-.087.067-.13l9.268-17.585-3.722-3.722L24 20.172l-2.121-2.121 3.722-3.722-3.722-3.722L24 8.485l2.121 2.121-3.722 3.722 3.722 3.722L24 20.172l1.414-1.414 3.722 3.722 9.268 17.585c.022.043.046.086.067.13C45.629 40.192 44 32.727 44 24c0-11.046-8.954-20-20-20z"/>
                 </svg>
