@@ -9,12 +9,59 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      accounting_systems: {
+        Row: {
+          id: number
+          is_custom: boolean | null
+          name: string
+        }
+        Insert: {
+          id?: number
+          is_custom?: boolean | null
+          name: string
+        }
+        Update: {
+          id?: number
+          is_custom?: boolean | null
+          name?: string
+        }
+        Relationships: []
+      }
+      cities: {
+        Row: {
+          department_id: number | null
+          id: number
+          name: string
+        }
+        Insert: {
+          department_id?: number | null
+          id?: number
+          name: string
+        }
+        Update: {
+          department_id?: number | null
+          id?: number
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cities_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       companies: {
         Row: {
+          accounting_system_id: number | null
           address: string | null
+          city_id: number | null
+          contributor_type_id: number | null
           created_at: string
           email: string | null
-          fiscal_responsibility: string | null
+          fiscal_responsibility_id: number | null
           id: string
           name: string
           nit: string
@@ -22,10 +69,13 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          accounting_system_id?: number | null
           address?: string | null
+          city_id?: number | null
+          contributor_type_id?: number | null
           created_at?: string
           email?: string | null
-          fiscal_responsibility?: string | null
+          fiscal_responsibility_id?: number | null
           id?: string
           name: string
           nit: string
@@ -33,15 +83,92 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          accounting_system_id?: number | null
           address?: string | null
+          city_id?: number | null
+          contributor_type_id?: number | null
           created_at?: string
           email?: string | null
-          fiscal_responsibility?: string | null
+          fiscal_responsibility_id?: number | null
           id?: string
           name?: string
           nit?: string
           phone?: string | null
           updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "companies_accounting_system_id_fkey"
+            columns: ["accounting_system_id"]
+            isOneToOne: false
+            referencedRelation: "accounting_systems"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "companies_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "companies_contributor_type_id_fkey"
+            columns: ["contributor_type_id"]
+            isOneToOne: false
+            referencedRelation: "contributor_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "companies_fiscal_responsibility_id_fkey"
+            columns: ["fiscal_responsibility_id"]
+            isOneToOne: false
+            referencedRelation: "fiscal_responsibilities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contributor_types: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name: string
+        }
+        Update: {
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      departments: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name: string
+        }
+        Update: {
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      fiscal_responsibilities: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name: string
+        }
+        Update: {
+          id?: number
+          name?: string
         }
         Relationships: []
       }
@@ -49,21 +176,27 @@ export type Database = {
         Row: {
           created_at: string
           display_name: string | null
+          email: string | null
           id: string
+          is_active: boolean | null
           phone: string | null
           updated_at: string
         }
         Insert: {
           created_at?: string
           display_name?: string | null
+          email?: string | null
           id: string
+          is_active?: boolean | null
           phone?: string | null
           updated_at?: string
         }
         Update: {
           created_at?: string
           display_name?: string | null
+          email?: string | null
           id?: string
+          is_active?: boolean | null
           phone?: string | null
           updated_at?: string
         }
