@@ -41,9 +41,6 @@ const Signup = () => {
                 <Input type="text" placeholder="Nombre completo" />
               </div>
               <div>
-                <Input type="text" placeholder="NIT" />
-              </div>
-              <div>
                 <Input type="email" placeholder="Email" />
               </div>
               <div>

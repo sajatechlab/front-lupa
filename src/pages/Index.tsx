@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Github, Twitter } from "lucide-react";
 import Features from "@/components/Features";
 import Testimonials from "@/components/Testimonials";
 import Pricing from "@/components/Pricing";
 import CallToAction from "@/components/CallToAction";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
@@ -18,39 +18,38 @@ const Index = () => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex items-center justify-between p-4 md:px-8">
+      <nav className="flex items-center justify-between p-6 md:px-12">
         <div className="flex items-center gap-2">
           <img src="/lovable-uploads/66b90c17-c299-4882-a96a-de4eec089feb.png" alt="Logo" className="h-8 w-8" />
           <span className="font-bold">LUPA IA</span>
         </div>
-        <div className="hidden md:flex items-center gap-6">
-          <a href="#features" className="text-sm hover:text-primary">Funcionalidad</a>
-          <a href="#testimonials" className="text-sm hover:text-primary">Testimonios</a>
-          <a href="#pricing" className="text-sm hover:text-primary">Precio</a>
-          <a href="#blog" className="text-sm hover:text-primary">Blogs</a>
+        <div className="hidden md:flex items-center gap-8">
+          <Link to="/#features" className="text-sm hover:text-primary">Funcionalidad</Link>
+          <Link to="/#testimonials" className="text-sm hover:text-primary">Testimonios</Link>
+          <Link to="/#pricing" className="text-sm hover:text-primary">Precio</Link>
+          <Link to="/blog" className="text-sm hover:text-primary">Blogs</Link>
         </div>
         <div className="flex items-center gap-4">
           <Button variant="ghost" asChild>
-            <a href="/login">Login</a>
+            <Link to="/login">Login</Link>
           </Button>
           <Button asChild>
-            <a href="/signup">Registrarse</a>
+            <Link to="/signup">Registrarse</Link>
           </Button>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="px-4 py-20 text-center md:px-8">
-        <h1 className="mb-6 text-4xl font-bold md:text-6xl">
+      <section className="px-6 py-24 md:py-32 text-center md:px-12">
+        <h1 className="mb-8 text-4xl font-bold md:text-6xl max-w-4xl mx-auto">
           Revoluciona la manera de tener tu facturación electrónica con <span className="text-cyan-500">LUPA</span>
         </h1>
-        <p className="mx-auto mb-8 max-w-2xl text-muted-foreground">
+        <p className="mx-auto mb-12 max-w-2xl text-muted-foreground text-lg">
           LUPA FE es una herramienta poderosa que ayuda a automatizar y digitalizar la facturación electrónica tuya o de tu negocio. Hazlo fácil.
         </p>
-        <div className="flex justify-center gap-4">
-          <Button size="lg">Documentacion</Button>
-          <Button size="lg" variant="outline">Prueba gratis</Button>
-        </div>
+        <Button size="lg" asChild className="text-lg px-8 py-6">
+          <Link to="/signup">Prueba gratis</Link>
+        </Button>
       </section>
 
       <Features />
@@ -59,7 +58,7 @@ const Index = () => {
       <CallToAction />
 
       {/* Footer */}
-      <footer className="border-t py-12">
+      <footer className="border-t py-12 mt-24">
         <div className="container">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex items-center gap-2">
