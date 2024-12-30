@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1'
 import { extractFilesFromZip, uploadFiles } from './fileUtils.ts'
+import { parseXMLContent } from '../process-invoice/xmlParser.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -13,12 +14,6 @@ serve(async (req) => {
   }
 
   try {
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    )
-
-    // Get form data
     const formData = await req.formData()
     const zipFile = formData.get('zip') as File
     const companyId = formData.get('company_id')
@@ -40,14 +35,27 @@ serve(async (req) => {
       throw new Error('ZIP file must contain both XML and PDF files')
     }
 
+    console.log('Files extracted successfully')
+
+    // Parse XML content
+    const parsedData = parseXMLContent(xmlContent)
+    console.log('XML parsed successfully:', parsedData)
+
+    const supabase = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    )
+
     // Upload files to storage and get public URLs
     const { xmlUrl, pdfUrl, zipUrl } = await uploadFiles(supabase, invoiceId, {
       xmlContent,
       xmlFileName,
       pdfFile,
       pdfFileName,
-      zipFile
+      zipFile,
     })
+
+    console.log('Files uploaded successfully')
 
     // Insert file metadata
     const { error: filesError } = await supabase
@@ -62,10 +70,13 @@ serve(async (req) => {
 
     if (filesError) throw filesError
 
+    console.log('File metadata saved successfully')
+
     return new Response(
       JSON.stringify({
         success: true,
         invoice_id: invoiceId,
+        parsed_data: parsedData,
         message: 'Files processed and stored successfully'
       }),
       { 
