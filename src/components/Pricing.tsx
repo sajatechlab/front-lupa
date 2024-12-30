@@ -1,11 +1,19 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const getAnnualPrice = (monthlyPrice: number) => {
+  const annualPrice = monthlyPrice * 12;
+  const discount = annualPrice * 0.3; // 30% discount
+  return Math.round(annualPrice - discount);
+};
 
 const plans = [
   {
     name: "Plan Básico",
-    price: "$9",
+    monthlyPrice: 9,
     description: "Ideal para pequeñas empresas o freelancers.",
     features: [
       "1 usuario",
@@ -18,7 +26,7 @@ const plans = [
   },
   {
     name: "Plan Profesional",
-    price: "$29",
+    monthlyPrice: 29,
     description: "Perfecto para equipos medianos que gestionan documentos regularmente.",
     features: [
       "5 usuarios",
@@ -33,7 +41,7 @@ const plans = [
   },
   {
     name: "Plan Empresarial",
-    price: "$59",
+    monthlyPrice: 59,
     description: "La solución definitiva para grandes empresas.",
     features: [
       "Usuarios ilimitados",
@@ -48,40 +56,61 @@ const plans = [
 ];
 
 const Pricing = () => {
+  const [isAnnual, setIsAnnual] = useState(false);
+
   return (
-    <section id="pricing" className="py-20 bg-muted/50">
+    <section id="pricing" className="py-24 bg-muted/50">
       <div className="container">
-        <h2 className="text-3xl font-bold text-center mb-4">
-          Sorpréndete con nuestros precios
+        <h2 className="text-4xl font-bold text-center mb-4">
+          Planes diseñados para tu negocio
         </h2>
         <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
           Disfruta de todas las funcionalidades que necesitas a un precio accesible. Optimiza tu negocio sin comprometer tu presupuesto.
         </p>
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-12">
           <div className="inline-flex items-center rounded-lg border p-1 bg-background">
-            <Button variant="ghost" className="relative">
+            <Button 
+              variant={!isAnnual ? "default" : "ghost"}
+              onClick={() => setIsAnnual(false)}
+            >
               Mensual
             </Button>
-            <Button variant="ghost">
+            <Button 
+              variant={isAnnual ? "default" : "ghost"}
+              onClick={() => setIsAnnual(true)}
+            >
               Anual
             </Button>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {plans.map((plan, index) => (
-            <Card key={index} className={plan.popular ? "border-primary shadow-lg" : ""}>
+            <Card key={index} className={`relative ${plan.popular ? "border-primary shadow-lg" : ""}`}>
+              {plan.popular && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                  <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm">
+                    Más popular
+                  </span>
+                </div>
+              )}
               <CardHeader>
                 <CardTitle>
                   <h3 className="text-2xl font-bold">{plan.name}</h3>
                   <div className="mt-4">
-                    <span className="text-4xl font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground">/mes</span>
+                    <span className="text-4xl font-bold">
+                      ${isAnnual ? getAnnualPrice(plan.monthlyPrice) : plan.monthlyPrice}
+                    </span>
+                    <span className="text-muted-foreground">/{isAnnual ? 'año' : 'mes'}</span>
                   </div>
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">{plan.description}</p>
               </CardHeader>
               <CardContent>
-                <Button className="w-full mb-6">Empieza ahora</Button>
+                <Button className="w-full mb-6" asChild>
+                  <Link to="/signup">
+                    Empieza ahora
+                  </Link>
+                </Button>
                 <ul className="space-y-3">
                   {plan.features.map((feature, i) => (
                     <li key={i} className="flex items-center gap-2">
