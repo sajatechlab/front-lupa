@@ -72,7 +72,7 @@ export function CompanyCreationForm() {
       });
 
       // Redirect to dashboard
-      navigate('/dashboard');
+      navigate('/');
     } catch (error) {
       console.error('Error creating company:', error);
       toast({

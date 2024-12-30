@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 
 export const companyFormSchema = z.object({
   nit: z.string().min(1, "NIT es requerido"),
