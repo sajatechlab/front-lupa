@@ -1,10 +1,10 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, Github, Twitter, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const blogs = [
+export const blogs = [
   {
     id: 1,
     title: "Optimizing Your Electronic Invoicing Process",
