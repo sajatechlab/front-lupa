@@ -9,10 +9,13 @@ import { CompanyFormHeader } from "./CompanyFormHeader";
 import { CompanyTypeSelect } from "./CompanyTypeSelect";
 import { CompanyBasicInfo } from "./CompanyBasicInfo";
 import { CompanyFormValues, companyFormSchema } from "./types";
+import { useSession } from "@supabase/auth-helpers-react";
 
 export function CompanyCreationForm() {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const session = useSession();
+  
   const form = useForm<CompanyFormValues>({
     resolver: zodResolver(companyFormSchema),
     defaultValues: {
@@ -26,9 +29,7 @@ export function CompanyCreationForm() {
 
   async function onSubmit(values: CompanyFormValues) {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
+      if (!session?.user) {
         toast({
           variant: "destructive",
           title: "Error",
@@ -40,31 +41,37 @@ export function CompanyCreationForm() {
       // First create the company
       const { data: company, error: companyError } = await supabase
         .from('companies')
-        .insert([
-          {
-            nit: values.nit,
-            name: values.name,
-            phone: values.phone,
-            contributor_type_id: values.type === 'juridica' ? 1 : 2,
-          },
-        ])
+        .insert({
+          nit: values.nit,
+          name: values.name,
+          phone: values.phone,
+          contributor_type_id: values.type === 'juridica' ? 1 : 2,
+        })
         .select()
         .single();
 
-      if (companyError) throw companyError;
+      if (companyError) {
+        console.error('Error creating company:', companyError);
+        throw companyError;
+      }
+
+      if (!company) {
+        throw new Error('No se pudo crear la compañía');
+      }
 
       // Then create the user-company association
       const { error: associationError } = await supabase
         .from('user_companies')
-        .insert([
-          {
-            user_id: user.id,
-            company_id: company.id,
-            role: 'owner',
-          },
-        ]);
+        .insert({
+          user_id: session.user.id,
+          company_id: company.id,
+          role: 'owner',
+        });
 
-      if (associationError) throw associationError;
+      if (associationError) {
+        console.error('Error creating association:', associationError);
+        throw associationError;
+      }
 
       toast({
         title: "¡Éxito!",
