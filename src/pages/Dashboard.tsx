@@ -9,6 +9,11 @@ interface Company {
   name: string;
 }
 
+interface UserCompany {
+  company_id: string;
+  companies: Company;
+}
+
 const Dashboard = () => {
   const session = useSession();
   const navigate = useNavigate();
@@ -40,8 +45,8 @@ const Dashboard = () => {
       }
 
       const formattedCompanies = userCompanies
-        .map(uc => uc.companies)
-        .filter(company => company !== null) as Company[];
+        ? userCompanies.map((uc: UserCompany) => uc.companies)
+        : [];
 
       setCompanies(formattedCompanies);
     };
