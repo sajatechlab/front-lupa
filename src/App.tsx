@@ -10,6 +10,7 @@ import Signup from "./pages/Signup";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Dashboard from "./pages/Dashboard";
+import CompanyRegistration from "./pages/CompanyRegistration";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { supabase } from "./integrations/supabase/client";
 
@@ -36,6 +37,14 @@ const App = () => {
                       </ProtectedRoute>
                     }
                   />
+                  <Route
+                    path="/companyregistration"
+                    element={
+                      <ProtectedRoute>
+                        <CompanyRegistration />
+                      </ProtectedRoute>
+                    }
+                  />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </>
               ) : (
@@ -50,6 +59,14 @@ const App = () => {
                     element={
                       <ProtectedRoute>
                         <Dashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/companyregistration"
+                    element={
+                      <ProtectedRoute>
+                        <CompanyRegistration />
                       </ProtectedRoute>
                     }
                   />

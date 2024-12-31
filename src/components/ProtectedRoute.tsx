@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { CompanyCreationForm } from "./company/CompanyCreationForm";
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [hasCompany, setHasCompany] = useState<boolean | null>(null);
+  const location = useLocation();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -41,8 +41,9 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     return <Navigate to="/login" replace />;
   }
 
-  if (isAuthenticated && !hasCompany) {
-    return <CompanyCreationForm />;
+  // If user is authenticated but has no company and isn't on the company registration page
+  if (isAuthenticated && !hasCompany && location.pathname !== '/companyregistration') {
+    return <Navigate to="/companyregistration" replace />;
   }
 
   return <>{children}</>;
