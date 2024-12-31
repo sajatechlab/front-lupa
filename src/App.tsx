@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import Dashboard from "./pages/Dashboard";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { supabase } from "./integrations/supabase/client";
 
@@ -31,7 +32,7 @@ const App = () => {
                     path="/"
                     element={
                       <ProtectedRoute>
-                        <div>Dashboard (to be implemented)</div>
+                        <Dashboard />
                       </ProtectedRoute>
                     }
                   />
@@ -44,6 +45,14 @@ const App = () => {
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/blog" element={<Blog />} />
                   <Route path="/blog/:id" element={<BlogPost />} />
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <Dashboard />
+                      </ProtectedRoute>
+                    }
+                  />
                 </>
               )}
             </Routes>
