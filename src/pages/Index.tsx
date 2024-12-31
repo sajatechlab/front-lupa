@@ -55,6 +55,8 @@ const Index = () => {
       <Features />
       <Testimonials />
       <Pricing />
+
+      {/* Call to Action Section */}
       <CallToAction />
 
       {/* Footer */}
