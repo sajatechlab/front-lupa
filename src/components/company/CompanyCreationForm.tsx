@@ -28,17 +28,17 @@ export function CompanyCreationForm() {
   });
 
   async function onSubmit(values: CompanyFormValues) {
-    try {
-      if (!session?.user) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Debes estar autenticado para crear una compañía",
-        });
-        return;
-      }
+    if (!session?.user) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Debes estar autenticado para crear una compañía",
+      });
+      return;
+    }
 
-      // First create the company
+    try {
+      // Create the company
       const { data: company, error: companyError } = await supabase
         .from('companies')
         .insert({
@@ -50,16 +50,13 @@ export function CompanyCreationForm() {
         .select()
         .single();
 
-      if (companyError) {
-        console.error('Error creating company:', companyError);
-        throw companyError;
-      }
+      if (companyError) throw companyError;
 
       if (!company) {
         throw new Error('No se pudo crear la compañía');
       }
 
-      // Then create the user-company association
+      // Create the user-company association
       const { error: associationError } = await supabase
         .from('user_companies')
         .insert({
@@ -68,17 +65,13 @@ export function CompanyCreationForm() {
           role: 'owner',
         });
 
-      if (associationError) {
-        console.error('Error creating association:', associationError);
-        throw associationError;
-      }
+      if (associationError) throw associationError;
 
       toast({
         title: "¡Éxito!",
         description: "Compañía creada exitosamente",
       });
 
-      // Redirect to dashboard
       navigate('/');
     } catch (error) {
       console.error('Error creating company:', error);
@@ -95,7 +88,9 @@ export function CompanyCreationForm() {
       <CompanyFormHeader />
       <div className="bg-white rounded-lg p-8 shadow-sm">
         <h3 className="text-xl font-semibold mb-2">Crear una compañía</h3>
-        <p className="text-gray-600 mb-6">Completa la información de tu empresa para continuar</p>
+        <p className="text-gray-600 mb-6">
+          Completa la información de tu empresa para continuar
+        </p>
         
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
