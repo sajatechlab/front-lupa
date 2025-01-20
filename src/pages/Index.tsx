@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { GridPattern } from "@/components/GridPattern";
 import { motion, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Footer } from "@/components/Footer";
 
 const Index = () => {
   const pattern = {
@@ -136,29 +137,7 @@ const Index = () => {
       <Testimonials />
       <Pricing />
       <CallToAction />
-
-      {/* Footer */}
-      <footer className="border-t py-12 mt-24">
-        <div className="container">
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <div className="flex items-center gap-2">
-              <img src="/lovable-uploads/66b90c17-c299-4882-a96a-de4eec089feb.png" alt="Logo" className="h-8 w-8" />
-              <span>LUPA IA</span>
-            </div>
-            <div className="flex gap-4">
-              <a href="#" className="text-muted-foreground hover:text-primary">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary">
-                <Github className="h-5 w-5" />
-              </a>
-            </div>
-            <div className="text-sm text-muted-foreground">
-              © 2024 LUPA Marketing. All rights reserved.
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
