@@ -15,10 +15,11 @@ const Index = () => {
     squares: [
       [-1, 2],
       [1, 3],
+      // Explicitly cast each random array to [number, number]
       ...Array.from({ length: 10 }, () => [
         Math.floor(Math.random() * 20) - 10,
         Math.floor(Math.random() * 20) - 10,
-      ]),
+      ] as [number, number]),
     ],
   };
 
