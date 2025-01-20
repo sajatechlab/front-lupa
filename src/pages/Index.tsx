@@ -13,14 +13,14 @@ const Index = () => {
   const pattern = {
     y: -6,
     squares: [
-      [-1, 2],
-      [1, 3],
-      // Explicitly cast each random array to [number, number]
-      ...Array.from({ length: 10 }, () => [
-        Math.floor(Math.random() * 20) - 10,
-        Math.floor(Math.random() * 20) - 10,
-      ] as [number, number]),
-    ],
+      [-1, 2] as [number, number],
+      [1, 3] as [number, number],
+      ...Array.from({ length: 10 }, () => {
+        const x = Math.floor(Math.random() * 20) - 10;
+        const y = Math.floor(Math.random() * 20) - 10;
+        return [x, y] as [number, number];
+      }),
+    ] as [number, number][],
   };
 
   const [isHalf, setIsHalf] = useState(false);
