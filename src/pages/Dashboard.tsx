@@ -12,7 +12,7 @@ import {
   FileText,
   Terminal,
   MessageSquare,
-  Sponsor,
+  Heart, // Replacing Sponsor with Heart icon
   Menu,
   X,
   ArrowLeft
@@ -99,7 +99,7 @@ const Dashboard = () => {
     {
       label: "Sponsor",
       href: "#",
-      icon: <Sponsor className="h-5 w-5 text-neutral-200" />
+      icon: <Heart className="h-5 w-5 text-neutral-200" />
     }
   ];
 
