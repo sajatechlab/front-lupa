@@ -7,9 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import {
-  AiOutlineGithub,
   AiOutlineGoogle,
-  AiOutlineTwitter,
 } from "react-icons/ai";
 import { SiMicrosoft } from "react-icons/si";
 
@@ -104,12 +102,12 @@ const Login = () => {
   const pattern = {
     y: -6,
     squares: [
-      [-1, 2],
-      [1, 3],
+      [-1, 2] as [number, number],
+      [1, 3] as [number, number],
       ...Array.from({ length: 10 }, () => [
         Math.floor(Math.random() * 20) - 10,
         Math.floor(Math.random() * 20) - 10,
-      ]),
+      ] as [number, number]),
     ],
   };
 
