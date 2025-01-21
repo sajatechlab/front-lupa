@@ -62,7 +62,7 @@ export const MobileNav = ({ navItems }: { navItems: Array<{ name: string; link: 
             <motion.button
               variants={childItems}
               onClick={() => navigate("/signup")}
-              className="text-white inline-flex items-center justify-center rounded-[10px] bg-gradient-to-b from-[#464d55] to-[#25292e] text-sm px-4 py-2 shadow-[0_10px_20px_rgba(0,_0,_0,_.1),0_3px_6px_rgba(0,_0,_0,_.05)] hover:shadow-[rgba(0,_1,_0,_.2)_0_2px_8px] active:outline-none hover:opacity-80"
+              className="text-white inline-flex items-center justify-center rounded-full bg-[#0EA5E9] text-sm px-6 py-2 transition duration-150 hover:opacity-90"
             >
               Sign up
             </motion.button>
