@@ -3,6 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { LayoutDashboard, Settings, UserCircle, LogOut } from "lucide-react";
+import Logo from "@/components/Logo";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -15,7 +27,6 @@ const Dashboard = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUserEmail(user.email);
-        // Get the user's profile data
         const { data: profile } = await supabase
           .from('profiles')
           .select('display_name')
@@ -47,28 +58,62 @@ const Dashboard = () => {
     }
   };
 
+  const menuItems = [
+    {
+      title: "Dashboard",
+      icon: <LayoutDashboard className="h-4 w-4" />,
+      href: "/dashboard"
+    },
+    {
+      title: "Perfil",
+      icon: <UserCircle className="h-4 w-4" />,
+      href: "/dashboard/profile"
+    },
+    {
+      title: "Configuración",
+      icon: <Settings className="h-4 w-4" />,
+      href: "/dashboard/settings"
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-background">
-      {/* User Info Banner */}
-      <div className="bg-primary/10 py-4">
-        <div className="container mx-auto">
-          <div className="flex justify-between items-center">
-            <div>
-              <h2 className="font-semibold text-lg">{userName}</h2>
-              <p className="text-sm text-muted-foreground">{userEmail}</p>
+      <SidebarProvider defaultOpen>
+        <div className="grid lg:grid-cols-[280px_1fr]">
+          <Sidebar>
+            <SidebarHeader>
+              <Logo />
+            </SidebarHeader>
+            <SidebarContent>
+              <SidebarMenu>
+                {menuItems.map((item) => (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton asChild>
+                      <a href={item.href} className="flex items-center gap-2">
+                        {item.icon}
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+                <SidebarMenuItem>
+                  <SidebarMenuButton onClick={handleLogout}>
+                    <LogOut className="h-4 w-4" />
+                    <span>Cerrar sesión</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarContent>
+          </Sidebar>
+          <main className="p-6">
+            <div className="mb-8">
+              <h1 className="text-2xl font-bold">Bienvenido, {userName}</h1>
+              <p className="text-muted-foreground">{userEmail}</p>
             </div>
-            <Button onClick={handleLogout} variant="outline">
-              Cerrar sesión
-            </Button>
-          </div>
+            {/* Dashboard content will go here */}
+          </main>
         </div>
-      </div>
-
-      {/* Dashboard Content */}
-      <div className="container mx-auto py-8">
-        <h1 className="text-2xl font-bold mb-8">Dashboard</h1>
-        {/* Add your dashboard content here */}
-      </div>
+      </SidebarProvider>
     </div>
   );
 };
