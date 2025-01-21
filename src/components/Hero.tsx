@@ -12,8 +12,8 @@ export const Hero = () => {
       ...Array.from({ length: 10 }, () => [
         Math.floor(Math.random() * 20) - 10,
         Math.floor(Math.random() * 20) - 10,
-      ]),
-    ],
+      ] as [number, number]), // Type assertion to ensure it's a tuple
+    ] as [number, number][], // Type assertion for the entire array
   };
 
   const [isHalf, setIsHalf] = useState(false);
