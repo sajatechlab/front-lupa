@@ -58,7 +58,7 @@ export const Hero = () => {
         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center items-center mt-12">
           <Button
             variant="outline"
-            className="rounded-2xl py-2 border border-zinc-200"
+            className="rounded-2xl py-2"
             asChild
           >
             <a href="/docs">Documentacion</a>
