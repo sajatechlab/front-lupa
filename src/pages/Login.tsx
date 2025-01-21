@@ -6,10 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import {
-  AiOutlineGoogle,
-} from "react-icons/ai";
-import { SiMicrosoft } from "react-icons/si";
+import { AiOutlineGoogle } from "react-icons/ai";
+import { SiMicrosoftoffice } from "react-icons/si";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -114,7 +112,7 @@ const Login = () => {
   const socialButtons = [
     {
       name: "Microsoft",
-      icon: <SiMicrosoft className="text-blue-700 h-5 w-5" />,
+      icon: <SiMicrosoftoffice className="text-blue-700 h-5 w-5" />,
       onClick: handleMicrosoftLogin,
     },
     {
