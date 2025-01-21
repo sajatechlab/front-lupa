@@ -5,7 +5,7 @@ import Logo from "@/components/Logo";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { AiOutlineGoogle } from "react-icons/ai";
 
 const Login = () => {
@@ -41,14 +41,32 @@ const Login = () => {
         email,
         password,
       });
-      if (error) throw error;
-      navigate('/');
+      
+      if (error) {
+        if (error.message === 'Invalid login credentials') {
+          toast({
+            variant: "destructive",
+            title: "Error de inicio de sesión",
+            description: "El correo electrónico o la contraseña son incorrectos. Por favor verifica tus credenciales.",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "No se pudo iniciar sesión. Por favor intenta de nuevo.",
+          });
+        }
+        console.error('Error:', error);
+        return;
+      }
+
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error:', error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "No se pudo iniciar sesión. Por favor verifica tus credenciales e intenta de nuevo.",
+        description: "Ocurrió un error inesperado. Por favor intenta de nuevo.",
       });
     }
   };
@@ -120,12 +138,14 @@ const Login = () => {
               className="w-full rounded-xl shadow-sm border border-gray-100 placeholder:text-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent mb-6 p-2"
               placeholder="Email"
               name="email"
+              required
             />
             <input
               type="password"
               className="w-full rounded-xl shadow-sm border border-gray-100 placeholder:text-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent mb-6 p-2"
               placeholder="Contraseña"
               name="password"
+              required
             />
             <Button
               type="submit"
