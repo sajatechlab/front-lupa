@@ -7,7 +7,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { AiOutlineGoogle } from "react-icons/ai";
-import { SiMicrosoftoffice } from "react-icons/si";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -54,26 +53,6 @@ const Login = () => {
     }
   };
 
-  const handleMicrosoftLogin = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'azure',
-        options: {
-          scopes: 'email',
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
-      if (error) throw error;
-    } catch (error) {
-      console.error('Error:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "No se pudo iniciar sesión con Microsoft. Por favor intenta de nuevo.",
-      });
-    }
-  };
-
   const handleGoogleLogin = async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
@@ -110,11 +89,6 @@ const Login = () => {
   };
 
   const socialButtons = [
-    {
-      name: "Microsoft",
-      icon: <SiMicrosoftoffice className="text-blue-700 h-5 w-5" />,
-      onClick: handleMicrosoftLogin,
-    },
     {
       name: "Google",
       icon: <AiOutlineGoogle className="text-red-500 h-5 w-5" />,
