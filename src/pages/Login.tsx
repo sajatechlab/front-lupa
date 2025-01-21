@@ -85,7 +85,7 @@ const Login = () => {
         Math.floor(Math.random() * 20) - 10,
         Math.floor(Math.random() * 20) - 10,
       ] as [number, number]),
-    ],
+    ] as [number, number][],
   };
 
   const socialButtons = [
@@ -104,12 +104,13 @@ const Login = () => {
             width={120}
             height={120}
             x="50%"
+            y={pattern.y}
+            squares={pattern.squares}
             className="absolute inset-x-0 inset-y-[-30%] h-[160%] w-full skew-y-[-5deg] fill-tertiary/[0.05] stroke-gray-100 dark:fill-primary dark:stroke-gray-100"
-            {...pattern}
           />
         </div>
         <div className="px-10 py-20 rounded-xl bg-white shadow-lg w-[30rem] mt-10 md:mt-14 mx-4 relative z-10">
-          <Logo />
+          <Logo textClassName="text-zinc-700" />
           <h1 className="my-8 text-xl text-zinc-700 text-center">
             Iniciar sesión en LUPA
           </h1>

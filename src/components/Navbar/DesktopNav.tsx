@@ -40,10 +40,10 @@ export const DesktopNav = ({ navItems }: { navItems: Array<{ name: string; link:
         </CustomLink>
       ))}
       <Link
-        to="/signup"
+        to="/login"
         className="font-medium text-white inline-flex items-center justify-center rounded-full bg-[#0EA5E9] text-sm px-6 py-2 transition duration-150 hover:opacity-90"
       >
-        Login
+        Iniciar sesión
       </Link>
     </div>
   );
