@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import React from "react";
 import { Footer } from "./Footer";
 import { Helmet } from "react-helmet";
+import Navbar from "./Navbar/Navbar";
 
 interface MetaProps {
   title?: string;
@@ -65,22 +66,7 @@ export const Container = (props: ContainerProps) => {
         </a>
       </div>
       <div className="h-10"></div>
-      <nav className="flex items-center justify-between p-6 md:px-12">
-        <div className="flex items-center gap-2">
-          <img src="/lovable-uploads/66b90c17-c299-4882-a96a-de4eec089feb.png" alt="Logo" className="h-8 w-8" />
-          <span className="font-bold">LUPA IA</span>
-        </div>
-        <div className="hidden md:flex items-center gap-8">
-          <a href="/#features" className="text-sm hover:text-primary">Funcionalidad</a>
-          <a href="/#testimonials" className="text-sm hover:text-primary">Testimonios</a>
-          <a href="/#pricing" className="text-sm hover:text-primary">Precio</a>
-          <a href="/blog" className="text-sm hover:text-primary">Blogs</a>
-        </div>
-        <div className="flex items-center gap-4">
-          <a href="/login" className="text-sm hover:text-primary">Login</a>
-          <a href="/signup" className="text-sm hover:text-primary bg-primary text-primary-foreground px-4 py-2 rounded-md">Registrarse</a>
-        </div>
-      </nav>
+      <Navbar />
       <main className={clsx("antialiased", className)}>{children}</main>
       <Footer />
     </>

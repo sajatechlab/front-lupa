@@ -13,6 +13,6 @@ export const navItems = [
   },
   {
     name: "Blogs",
-    link: "/blog",
+    link: "/blogs",
   },
 ];
