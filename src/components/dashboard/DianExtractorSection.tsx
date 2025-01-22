@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ExternalLink } from "lucide-react";
 
 const DianExtractorSection = () => {
   const [dianUrl, setDianUrl] = useState('');
@@ -29,6 +30,18 @@ const DianExtractorSection = () => {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
+      </div>
+
+      <div className="mb-8 flex items-center justify-center">
+        <a
+          href="https://catalogo-vpfe.dian.gov.co/User/CompanyLogin"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-[#9b87f5] hover:text-[#9b87f5]/80 transition-colors"
+        >
+          <ExternalLink className="h-4 w-4" />
+          <span>Acceder al Catálogo DIAN</span>
+        </a>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
