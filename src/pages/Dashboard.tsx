@@ -29,7 +29,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex h-screen bg-[#1A1F2C] font-sans">
+    <div className="flex h-screen bg-background text-foreground transition-colors duration-200">
       <DashboardSidebar 
         open={open} 
         setOpen={setOpen}

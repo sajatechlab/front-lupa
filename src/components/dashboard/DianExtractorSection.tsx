@@ -16,13 +16,13 @@ const DianExtractorSection = () => {
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-2 text-white">Procesar Extracto DIAN</h2>
-        <p className="text-gray-300">
+        <h2 className="text-2xl font-bold mb-2 text-foreground">Procesar Extracto DIAN</h2>
+        <p className="text-muted-foreground">
           Ingrese la URL de la DIAN y seleccione una fecha de inicio para comenzar a procesar su extracto.
         </p>
       </div>
 
-      <div className="mb-8 aspect-video bg-[#2A2F3C] rounded-lg overflow-hidden">
+      <div className="mb-8 aspect-video bg-card rounded-lg overflow-hidden">
         <iframe
           className="w-full h-full"
           src="https://www.youtube.com/embed/3-Qrzwti8Go"
@@ -37,16 +37,16 @@ const DianExtractorSection = () => {
           href="https://catalogo-vpfe.dian.gov.co/User/CompanyLogin"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-[#9b87f5] hover:text-[#9b87f5]/80 transition-colors text-lg font-bold"
+          className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors text-xl font-bold"
         >
-          <ExternalLink className="h-5 w-5" />
+          <ExternalLink className="h-6 w-6" />
           <span>Acceder al Catálogo DIAN</span>
         </a>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="dianUrl" className="text-white">
+          <Label htmlFor="dianUrl" className="text-foreground">
             URL DIAN
           </Label>
           <Input
@@ -55,13 +55,13 @@ const DianExtractorSection = () => {
             value={dianUrl}
             onChange={(e) => setDianUrl(e.target.value)}
             placeholder="https://catalogo-vpfe.dian.gov.co/..."
-            className="bg-[#2A2F3C] border-[#9b87f5]/30 text-white placeholder:text-gray-400"
+            className="bg-card border-input text-foreground placeholder:text-muted-foreground"
             required
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="startDate" className="text-white">
+          <Label htmlFor="startDate" className="text-foreground">
             Fecha de Inicio
           </Label>
           <Input
@@ -69,14 +69,14 @@ const DianExtractorSection = () => {
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            className="bg-[#2A2F3C] border-[#9b87f5]/30 text-white"
+            className="bg-card border-input text-foreground"
             required
           />
         </div>
 
         <Button
           type="submit"
-          className="w-full bg-[#9b87f5] hover:bg-[#9b87f5]/90 text-white"
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
         >
           Procesar Extracto
         </Button>

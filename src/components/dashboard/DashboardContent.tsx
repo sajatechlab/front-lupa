@@ -3,7 +3,7 @@ import DianExtractorSection from "./DianExtractorSection";
 
 export const DashboardContent = () => {
   return (
-    <div className="flex-1 p-8 bg-[#1A1F2C] text-white">
+    <div className="flex-1 p-8 bg-background text-foreground transition-colors duration-200">
       <DianExtractorSection />
     </div>
   );
