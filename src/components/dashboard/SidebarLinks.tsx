@@ -1,4 +1,4 @@
-import { Home, User, Settings, LogOut, FileText, Terminal, MessageSquare, Heart } from "lucide-react";
+import { Home, User, Settings, LogOut, FileText, Terminal, MessageSquare, Heart, Files } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -36,6 +36,11 @@ export const SidebarLinks = ({ open }: SidebarLinksProps) => {
       label: "Dashboard",
       href: "/dashboard",
       icon: <Home className="h-5 w-5" />
+    },
+    {
+      label: "Documents",
+      href: "/documents",
+      icon: <Files className="h-5 w-5" />
     },
     {
       label: "Profile",
