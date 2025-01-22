@@ -68,7 +68,6 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
         .order('issue_date', { ascending: false })
         .limit(10);
 
-      // Aplicar el filtro según el tipo de factura
       if (type === 'received') {
         query.in('buyer_nit', companyNits);
       } else {
@@ -97,6 +96,41 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
         variant: "destructive",
         title: "Error",
         description: "No se pudieron cargar las facturas",
+      });
+    }
+  };
+
+  const handleDownload = async (type: 'pdf' | 'xml' | 'zip', invoice: any, e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      // Ensure the invoice.id is a valid UUID
+      if (!invoice.id || !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(invoice.id)) {
+        throw new Error('Invalid invoice ID format');
+      }
+
+      const { data: fileData, error } = await supabase
+        .from('invoice_files')
+        .select(`${type}_url`)
+        .eq('cufe', invoice.id)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (fileData && fileData[`${type}_url`]) {
+        window.open(fileData[`${type}_url`], '_blank');
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Archivo no encontrado",
+          description: `No se encontró el archivo ${type.toUpperCase()}`,
+        });
+      }
+    } catch (error) {
+      console.error(`Error downloading ${type}:`, error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: `Error al descargar el archivo ${type.toUpperCase()}`,
       });
     }
   };
@@ -142,36 +176,6 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
       newSelectedRows.delete(id);
     }
     setSelectedRows(newSelectedRows);
-  };
-
-  const handleDownload = async (type: 'pdf' | 'xml' | 'zip', invoice: any, e: React.MouseEvent) => {
-    e.preventDefault();
-    try {
-      const { data: fileData, error } = await supabase
-        .from('invoice_files')
-        .select(`${type}_url`)
-        .eq('cufe', invoice.id)
-        .maybeSingle();
-
-      if (error) throw error;
-
-      if (fileData && fileData[`${type}_url`]) {
-        window.open(fileData[`${type}_url`], '_blank');
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Archivo no encontrado",
-          description: `No se encontró el archivo ${type.toUpperCase()}`,
-        });
-      }
-    } catch (error) {
-      console.error(`Error downloading ${type}:`, error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: `Error al descargar el archivo ${type.toUpperCase()}`,
-      });
-    }
   };
 
   const hasActiveFilters = Object.values(filters).some(value => value !== '');
