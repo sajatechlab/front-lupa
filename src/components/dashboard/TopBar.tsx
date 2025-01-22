@@ -10,7 +10,7 @@ interface Company {
 
 const TopBar = () => {
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
 
@@ -29,9 +29,13 @@ const TopBar = () => {
 
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    setTheme(savedTheme);
-    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+    // Check system preference
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      setTheme(savedTheme || systemTheme);
+      document.documentElement.classList.toggle('dark', savedTheme === 'dark' || systemTheme === 'dark');
+    }
   }, []);
 
   useEffect(() => {
@@ -49,25 +53,32 @@ const TopBar = () => {
 
   if (!mounted) return null;
 
+  const isDark = theme === 'dark';
+  const bgColor = isDark ? 'bg-[#1A1F2C]' : 'bg-white';
+  const borderColor = isDark ? 'border-[#9b87f5]/10' : 'border-gray-200';
+  const inputBgColor = isDark ? 'bg-[#2A2F3C]' : 'bg-gray-100';
+  const textColor = isDark ? 'text-white' : 'text-gray-900';
+  const hoverBgColor = isDark ? 'hover:bg-[#353B4A]' : 'hover:bg-gray-100';
+
   return (
-    <div className="w-full h-16 bg-[#1A1F2C] border-b border-[#9b87f5]/10">
+    <div className={`w-full h-16 ${bgColor} border-b ${borderColor} transition-colors duration-200`}>
       <div className="h-full px-6 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="relative">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="flex items-center gap-2 px-4 py-2 bg-[#2A2F3C] hover:bg-[#353B4A] rounded-lg text-white transition-colors"
+              className={`flex items-center gap-2 px-4 py-2 ${inputBgColor} ${hoverBgColor} rounded-lg ${textColor} transition-colors`}
             >
               <span>{selectedCompany?.name || 'Select Company'}</span>
               <ChevronDown className="h-4 w-4 text-[#9b87f5]" />
             </button>
             
             {isOpen && (
-              <div className="absolute top-full mt-1 w-48 bg-[#2A2F3C] border border-[#9b87f5]/10 rounded-lg shadow-lg z-50">
+              <div className={`absolute top-full mt-1 w-48 ${inputBgColor} border ${borderColor} rounded-lg shadow-lg z-50`}>
                 {companies.map((company) => (
                   <button
                     key={company.id}
-                    className="w-full px-4 py-2 text-left hover:bg-[#353B4A] text-white transition-colors"
+                    className={`w-full px-4 py-2 text-left ${hoverBgColor} ${textColor} transition-colors`}
                     onClick={() => {
                       setSelectedCompany(company);
                       setIsOpen(false);
@@ -87,22 +98,23 @@ const TopBar = () => {
             <input 
               type="text" 
               placeholder="Search" 
-              className="pl-10 pr-4 py-2 rounded-lg bg-[#2A2F3C] hover:bg-[#353B4A] w-64 text-white placeholder-gray-400 border border-[#9b87f5]/10 focus:outline-none focus:border-[#9b87f5]/30 transition-colors"
+              className={`pl-10 pr-4 py-2 rounded-lg ${inputBgColor} ${hoverBgColor} w-64 ${textColor} placeholder-gray-400 border ${borderColor} focus:outline-none focus:border-[#9b87f5]/30 transition-colors`}
             />
           </div>
           
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg hover:bg-[#2A2F3C] transition-colors"
+            className={`p-2 rounded-lg ${hoverBgColor} transition-colors`}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            {theme === 'dark' ? (
+            {isDark ? (
               <Sun className="h-5 w-5 text-[#9b87f5]" />
             ) : (
               <Moon className="h-5 w-5 text-[#9b87f5]" />
             )}
           </button>
           
-          <button className="p-2 rounded-lg hover:bg-[#2A2F3C] transition-colors">
+          <button className={`p-2 rounded-lg ${hoverBgColor} transition-colors`}>
             <Bell className="h-5 w-5 text-[#9b87f5]" />
           </button>
         </div>
