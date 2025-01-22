@@ -44,7 +44,8 @@ export const InvoiceTable = () => {
             total_item_value
           )
         `)
-        .order('issue_date', { ascending: false });
+        .order('issue_date', { ascending: false })
+        .limit(10);
 
       if (error) throw error;
 
