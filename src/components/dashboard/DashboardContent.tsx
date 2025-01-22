@@ -7,7 +7,7 @@ export const DashboardContent = () => {
         {[...Array(4)].map((_, i) => (
           <motion.div
             key={i}
-            className="h-24 bg-[#222222] rounded-lg shadow-lg border border-[#9b87f5]/10"
+            className="h-24 bg-[#2A2F3C] rounded-lg shadow-lg border border-[#9b87f5]/10 hover:border-[#9b87f5]/30 transition-colors"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
@@ -18,7 +18,7 @@ export const DashboardContent = () => {
         {[...Array(2)].map((_, i) => (
           <motion.div
             key={i}
-            className="h-[400px] bg-[#222222] rounded-lg shadow-lg border border-[#9b87f5]/10"
+            className="h-[400px] bg-[#2A2F3C] rounded-lg shadow-lg border border-[#9b87f5]/10 hover:border-[#9b87f5]/30 transition-colors"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 + 0.4 }}
