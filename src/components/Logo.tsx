@@ -1,16 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { CustomLink } from "./CustomLink";
 
 interface LogoProps {
   textClassName?: string;
 }
 
-const Logo = ({ textClassName = "text-white" }: LogoProps) => {
+const Logo = ({ textClassName }: LogoProps) => {
   return (
-    <Link to="/" className="flex items-center gap-2">
-      <img src="/lovable-uploads/66b90c17-c299-4882-a96a-de4eec089feb.png" alt="Logo" className="h-8 w-8" />
-      <span className={`font-bold ${textClassName}`}>LUPA IA</span>
-    </Link>
+    <CustomLink href="/" className="flex items-center space-x-2">
+      <div className="w-8 h-8 bg-primary rounded" />
+      <span className={`text-foreground font-medium ${textClassName}`}>
+        LUPA IA
+      </span>
+    </CustomLink>
   );
 };
 

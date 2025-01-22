@@ -1,6 +1,6 @@
 import { Home, User, Settings, LogOut, FileText, Terminal, MessageSquare, Heart } from "lucide-react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -10,6 +10,7 @@ interface SidebarLinksProps {
 
 export const SidebarLinks = ({ open }: SidebarLinksProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
 
   const handleLogout = async () => {
@@ -34,17 +35,17 @@ export const SidebarLinks = ({ open }: SidebarLinksProps) => {
     {
       label: "Dashboard",
       href: "/dashboard",
-      icon: <Home className="h-5 w-5 text-foreground" />
+      icon: <Home className="h-5 w-5" />
     },
     {
       label: "Profile",
       href: "/dashboard/profile",
-      icon: <User className="h-5 w-5 text-foreground" />
+      icon: <User className="h-5 w-5" />
     },
     {
       label: "Settings",
       href: "/dashboard/settings",
-      icon: <Settings className="h-5 w-5 text-foreground" />
+      icon: <Settings className="h-5 w-5" />
     }
   ];
 
@@ -52,22 +53,22 @@ export const SidebarLinks = ({ open }: SidebarLinksProps) => {
     {
       label: "Documentation",
       href: "#",
-      icon: <FileText className="h-5 w-5 text-foreground" />
+      icon: <FileText className="h-5 w-5" />
     },
     {
       label: "API Reference",
       href: "#",
-      icon: <Terminal className="h-5 w-5 text-foreground" />
+      icon: <Terminal className="h-5 w-5" />
     },
     {
       label: "Support",
       href: "#",
-      icon: <MessageSquare className="h-5 w-5 text-foreground" />
+      icon: <MessageSquare className="h-5 w-5" />
     },
     {
       label: "Sponsor",
       href: "#",
-      icon: <Heart className="h-5 w-5 text-foreground" />
+      icon: <Heart className="h-5 w-5" />
     }
   ];
 
@@ -78,7 +79,11 @@ export const SidebarLinks = ({ open }: SidebarLinksProps) => {
           <motion.a
             key={idx}
             href={link.href}
-            className="flex items-center space-x-3 p-2 rounded-lg text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+            className={`flex items-center space-x-3 p-2 rounded-lg text-foreground transition-colors ${
+              location.pathname === link.href 
+                ? 'bg-accent text-accent-foreground'
+                : 'hover:bg-accent hover:text-accent-foreground'
+            }`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -90,12 +95,12 @@ export const SidebarLinks = ({ open }: SidebarLinksProps) => {
           onClick={handleLogout}
           className="w-full flex items-center space-x-3 p-2 rounded-lg text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
         >
-          <LogOut className="h-5 w-5 text-foreground" />
+          <LogOut className="h-5 w-5" />
           {open && <span>Logout</span>}
         </button>
       </div>
 
-      <div className="my-4 border-t border-[#333333]" />
+      <div className="my-4 border-t border-border" />
 
       <div className="space-y-2">
         {secondaryLinks.map((link, idx) => (

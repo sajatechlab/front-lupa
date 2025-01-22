@@ -11,6 +11,9 @@ const Dashboard = () => {
   const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
+    // Set light theme by default
+    document.documentElement.classList.remove('dark');
+    
     const getUserData = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
@@ -29,7 +32,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex h-screen bg-background text-foreground transition-colors duration-200">
+    <div className="flex h-screen bg-background">
       <DashboardSidebar 
         open={open} 
         setOpen={setOpen}
