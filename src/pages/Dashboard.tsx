@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 import { MobileSidebar } from "@/components/dashboard/MobileSidebar";
 import { DashboardContent } from "@/components/dashboard/DashboardContent";
+import TopBar from "@/components/dashboard/TopBar";
 
 const Dashboard = () => {
   const [open, setOpen] = useState(true);
@@ -41,7 +42,10 @@ const Dashboard = () => {
         userName={userName}
         userEmail={userEmail}
       />
-      <DashboardContent />
+      <div className="flex-1 flex flex-col">
+        <TopBar />
+        <DashboardContent />
+      </div>
     </div>
   );
 };
