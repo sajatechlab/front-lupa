@@ -10,6 +10,7 @@ import Signup from "./pages/Signup";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Dashboard from "./pages/Dashboard";
+import Documents from "./pages/Documents";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import { ProtectedRoute } from "./components/ProtectedRoute";
@@ -36,6 +37,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/documents"
+                element={
+                  <ProtectedRoute>
+                    <Documents />
                   </ProtectedRoute>
                 }
               />
