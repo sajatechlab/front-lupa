@@ -37,9 +37,9 @@ const DianExtractorSection = () => {
           href="https://catalogo-vpfe.dian.gov.co/User/CompanyLogin"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-[#9b87f5] hover:text-[#9b87f5]/80 transition-colors"
+          className="flex items-center gap-2 text-[#9b87f5] hover:text-[#9b87f5]/80 transition-colors text-lg font-bold"
         >
-          <ExternalLink className="h-4 w-4" />
+          <ExternalLink className="h-5 w-5" />
           <span>Acceder al Catálogo DIAN</span>
         </a>
       </div>
