@@ -1,18 +1,32 @@
 import { CustomLink } from "../CustomLink";
 import Logo from "../Logo";
 import { AnimatePresence, motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 
 export const DesktopNav = ({ navItems }: { navItems: Array<{ name: string; link: string }> }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const navigate = useNavigate();
+
+  const handleNavClick = (link: string) => {
+    if (link.startsWith('/#')) {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.querySelector(link.substring(1));
+        element?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      navigate(link);
+    }
+  };
+
   return (
     <div className="flex flex-row space-x-8 items-center antialiased px-6 py-3 rounded-full bg-[#222222]">
       <Logo />
       {navItems.map((navItem, idx) => (
-        <CustomLink
+        <button
           key={`link-${idx}`}
-          href={navItem.link}
+          onClick={() => handleNavClick(navItem.link)}
           className="text-white text-sm relative"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -37,7 +51,7 @@ export const DesktopNav = ({ navItems }: { navItems: Array<{ name: string; link:
           <span className="relative z-10 px-2 py-2 inline-block">
             {navItem.name}
           </span>
-        </CustomLink>
+        </button>
       ))}
       <Link
         to="/login"

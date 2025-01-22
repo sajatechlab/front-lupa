@@ -28,7 +28,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex h-screen bg-[#1A1F2C]">
+    <div className="flex h-screen bg-[#1A1F2C] font-sans">
       <DashboardSidebar 
         open={open} 
         setOpen={setOpen}
