@@ -3,7 +3,11 @@ import { ChevronDown, ChevronUp, FileText, FileJson, Archive, Search, Filter, X 
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 
-export const InvoiceTable = () => {
+interface InvoiceTableProps {
+  type: 'received' | 'sent';
+}
+
+export const InvoiceTable = ({ type }: InvoiceTableProps) => {
   const [expandedRows, setExpandedRows] = useState(new Set());
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [showFilters, setShowFilters] = useState(false);
@@ -19,11 +23,28 @@ export const InvoiceTable = () => {
 
   useEffect(() => {
     fetchInvoices();
-  }, []);
+  }, [type]);
 
   const fetchInvoices = async () => {
     try {
-      const { data: invoicesData, error } = await supabase
+      const { data: userCompanies } = await supabase
+        .from('user_companies')
+        .select('company_id');
+
+      if (!userCompanies) return;
+
+      const companyIds = userCompanies.map(uc => uc.company_id);
+
+      const { data: companies } = await supabase
+        .from('companies')
+        .select('nit')
+        .in('id', companyIds);
+
+      if (!companies) return;
+
+      const companyNits = companies.map(company => company.nit);
+
+      const query = supabase
         .from('invoices')
         .select(`
           id,
@@ -46,6 +67,15 @@ export const InvoiceTable = () => {
         `)
         .order('issue_date', { ascending: false })
         .limit(10);
+
+      // Aplicar el filtro según el tipo de factura
+      if (type === 'received') {
+        query.in('buyer_nit', companyNits);
+      } else {
+        query.in('vendor_nit', companyNits);
+      }
+
+      const { data: invoicesData, error } = await query;
 
       if (error) throw error;
 
@@ -149,7 +179,9 @@ export const InvoiceTable = () => {
   return (
     <div className="w-full p-4 space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-lg font-semibold">Facturas</h2>
+        <h2 className="text-lg font-semibold">
+          Facturas {type === 'received' ? 'Recibidas' : 'Enviadas'}
+        </h2>
         <div className="relative">
           <button
             onClick={() => setShowFilters(!showFilters)}
