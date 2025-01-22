@@ -53,6 +53,11 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
           issue_date,
           due_date,
           total_amount,
+          vendor_nit,
+          buyer_nit,
+          vendors (
+            name
+          ),
           buyers (
             name
           ),
@@ -82,7 +87,7 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
         id: invoice.id,
         number: `${invoice.invoice_prefix}-${invoice.invoice_number}`,
         date: invoice.issue_date,
-        client: invoice.buyers?.name || 'N/A',
+        thirdParty: type === 'received' ? invoice.vendors?.name || 'N/A' : invoice.buyers?.name || 'N/A',
         total: invoice.total_amount,
         status: invoice.due_date && new Date(invoice.due_date) < new Date() ? 'Pendiente' : 'Pagada',
         details: invoice.invoice_items
@@ -138,7 +143,7 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
   useEffect(() => {
     const filtered = invoices.filter(invoice => {
       const matchNumber = invoice.number.toLowerCase().includes(filters.number.toLowerCase());
-      const matchClient = invoice.client.toLowerCase().includes(filters.client.toLowerCase());
+      const matchClient = invoice.thirdParty.toLowerCase().includes(filters.client.toLowerCase());
       const invoiceDate = new Date(invoice.date);
       const matchStartDate = !filters.startDate || invoiceDate >= new Date(filters.startDate);
       const matchEndDate = !filters.endDate || invoiceDate <= new Date(filters.endDate);
@@ -238,7 +243,7 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
             </div>
             
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Cliente</label>
+              <label className="text-sm font-medium text-gray-700">Tercero</label>
               <div className="relative">
                 <input
                   type="text"
@@ -295,7 +300,7 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
               <th className="p-3 text-left w-8"></th>
               <th className="p-3 text-left">Número</th>
               <th className="p-3 text-left">Fecha</th>
-              <th className="p-3 text-left">Cliente</th>
+              <th className="p-3 text-left">Tercero</th>
               <th className="p-3 text-right">Total</th>
               <th className="p-3 text-center">Estado</th>
               <th className="p-3 text-right">Acciones</th>
@@ -327,7 +332,7 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
                   </td>
                   <td className="p-3">{invoice.number}</td>
                   <td className="p-3">{invoice.date}</td>
-                  <td className="p-3">{invoice.client}</td>
+                  <td className="p-3">{invoice.thirdParty}</td>
                   <td className="p-3 text-right">
                     ${invoice.total.toFixed(2)}
                   </td>
