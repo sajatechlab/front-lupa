@@ -121,7 +121,7 @@ export const InvoiceTable = () => {
         .from('invoice_files')
         .select(`${type}_url`)
         .eq('cufe', invoice.id)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
 
@@ -130,7 +130,7 @@ export const InvoiceTable = () => {
       } else {
         toast({
           variant: "destructive",
-          title: "Error",
+          title: "Archivo no encontrado",
           description: `No se encontró el archivo ${type.toUpperCase()}`,
         });
       }
