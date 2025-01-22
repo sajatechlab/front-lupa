@@ -34,17 +34,17 @@ export const SidebarLinks = ({ open }: SidebarLinksProps) => {
     {
       label: "Dashboard",
       href: "/dashboard",
-      icon: <Home className="h-5 w-5 text-neutral-200" />
+      icon: <Home className="h-5 w-5 text-foreground" />
     },
     {
       label: "Profile",
       href: "/dashboard/profile",
-      icon: <User className="h-5 w-5 text-neutral-200" />
+      icon: <User className="h-5 w-5 text-foreground" />
     },
     {
       label: "Settings",
       href: "/dashboard/settings",
-      icon: <Settings className="h-5 w-5 text-neutral-200" />
+      icon: <Settings className="h-5 w-5 text-foreground" />
     }
   ];
 
@@ -52,22 +52,22 @@ export const SidebarLinks = ({ open }: SidebarLinksProps) => {
     {
       label: "Documentation",
       href: "#",
-      icon: <FileText className="h-5 w-5 text-neutral-200" />
+      icon: <FileText className="h-5 w-5 text-foreground" />
     },
     {
       label: "API Reference",
       href: "#",
-      icon: <Terminal className="h-5 w-5 text-neutral-200" />
+      icon: <Terminal className="h-5 w-5 text-foreground" />
     },
     {
       label: "Support",
       href: "#",
-      icon: <MessageSquare className="h-5 w-5 text-neutral-200" />
+      icon: <MessageSquare className="h-5 w-5 text-foreground" />
     },
     {
       label: "Sponsor",
       href: "#",
-      icon: <Heart className="h-5 w-5 text-neutral-200" />
+      icon: <Heart className="h-5 w-5 text-foreground" />
     }
   ];
 
@@ -78,7 +78,7 @@ export const SidebarLinks = ({ open }: SidebarLinksProps) => {
           <motion.a
             key={idx}
             href={link.href}
-            className="flex items-center space-x-3 p-2 rounded-lg text-white hover:bg-[#333333] transition-colors"
+            className="flex items-center space-x-3 p-2 rounded-lg text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -88,9 +88,9 @@ export const SidebarLinks = ({ open }: SidebarLinksProps) => {
         ))}
         <button
           onClick={handleLogout}
-          className="w-full flex items-center space-x-3 p-2 rounded-lg text-white hover:bg-[#333333] transition-colors"
+          className="w-full flex items-center space-x-3 p-2 rounded-lg text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
         >
-          <LogOut className="h-5 w-5 text-neutral-200" />
+          <LogOut className="h-5 w-5 text-foreground" />
           {open && <span>Logout</span>}
         </button>
       </div>
@@ -102,7 +102,7 @@ export const SidebarLinks = ({ open }: SidebarLinksProps) => {
           <motion.a
             key={idx}
             href={link.href}
-            className="flex items-center space-x-3 p-2 rounded-lg text-white hover:bg-[#333333] transition-colors"
+            className="flex items-center space-x-3 p-2 rounded-lg text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
