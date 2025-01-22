@@ -249,24 +249,24 @@ export type Database = {
       invoice_files: {
         Row: {
           created_at: string
+          cufe: string
           id: string
-          invoice_id: string
           pdf_url: string | null
           xml_url: string | null
           zip_url: string | null
         }
         Insert: {
           created_at?: string
+          cufe: string
           id?: string
-          invoice_id: string
           pdf_url?: string | null
           xml_url?: string | null
           zip_url?: string | null
         }
         Update: {
           created_at?: string
+          cufe?: string
           id?: string
-          invoice_id?: string
           pdf_url?: string | null
           xml_url?: string | null
           zip_url?: string | null
@@ -274,7 +274,7 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "invoice_files_invoice_id_fkey"
-            columns: ["invoice_id"]
+            columns: ["cufe"]
             isOneToOne: false
             referencedRelation: "invoices"
             referencedColumns: ["id"]
@@ -284,40 +284,43 @@ export type Database = {
       invoice_items: {
         Row: {
           created_at: string
-          description: string | null
-          discount: number | null
+          cufe: string
+          description: string
+          discount: number
           id: string
           invoice_id: string
           item_name: string
           quantity: number
-          tax_percent: number
-          tax_value: number
+          tax_percent: number | null
+          tax_value: number | null
           total_item_value: number
           unit_value: number
         }
         Insert: {
           created_at?: string
-          description?: string | null
-          discount?: number | null
+          cufe: string
+          description: string
+          discount?: number
           id?: string
           invoice_id: string
           item_name: string
           quantity: number
-          tax_percent: number
-          tax_value: number
+          tax_percent?: number | null
+          tax_value?: number | null
           total_item_value: number
           unit_value: number
         }
         Update: {
           created_at?: string
-          description?: string | null
-          discount?: number | null
+          cufe?: string
+          description?: string
+          discount?: number
           id?: string
           invoice_id?: string
           item_name?: string
           quantity?: number
-          tax_percent?: number
-          tax_value?: number
+          tax_percent?: number | null
+          tax_value?: number | null
           total_item_value?: number
           unit_value?: number
         }
@@ -337,7 +340,8 @@ export type Database = {
           company_id: string
           created_at: string
           cufe: string
-          due_date: string
+          Description: string | null
+          due_date: string | null
           id: string
           invoice_number: string
           invoice_prefix: string
@@ -345,7 +349,7 @@ export type Database = {
           payment_method: string
           subtotal: number
           total_amount: number
-          total_tax: number
+          total_tax: number | null
           updated_at: string
           vendor_nit: string
         }
@@ -354,7 +358,8 @@ export type Database = {
           company_id: string
           created_at?: string
           cufe: string
-          due_date: string
+          Description?: string | null
+          due_date?: string | null
           id?: string
           invoice_number: string
           invoice_prefix: string
@@ -362,7 +367,7 @@ export type Database = {
           payment_method: string
           subtotal: number
           total_amount: number
-          total_tax: number
+          total_tax?: number | null
           updated_at?: string
           vendor_nit: string
         }
@@ -371,7 +376,8 @@ export type Database = {
           company_id?: string
           created_at?: string
           cufe?: string
-          due_date?: string
+          Description?: string | null
+          due_date?: string | null
           id?: string
           invoice_number?: string
           invoice_prefix?: string
@@ -379,7 +385,7 @@ export type Database = {
           payment_method?: string
           subtotal?: number
           total_amount?: number
-          total_tax?: number
+          total_tax?: number | null
           updated_at?: string
           vendor_nit?: string
         }
@@ -389,13 +395,6 @@ export type Database = {
             columns: ["buyer_nit"]
             isOneToOne: false
             referencedRelation: "buyers"
-            referencedColumns: ["nit"]
-          },
-          {
-            foreignKeyName: "fk_vendor_nit"
-            columns: ["vendor_nit"]
-            isOneToOne: false
-            referencedRelation: "vendors"
             referencedColumns: ["nit"]
           },
           {
