@@ -271,15 +271,7 @@ export type Database = {
           xml_url?: string | null
           zip_url?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "invoice_files_invoice_id_fkey"
-            columns: ["cufe"]
-            isOneToOne: false
-            referencedRelation: "invoices"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       invoice_items: {
         Row: {
