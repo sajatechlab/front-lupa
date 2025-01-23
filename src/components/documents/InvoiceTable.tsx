@@ -109,7 +109,6 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
   const handleDownload = async (type: 'pdf' | 'xml' | 'zip', invoice: any, e: React.MouseEvent) => {
     e.preventDefault();
     try {
-      // Ensure the invoice.id is a valid UUID
       if (!invoice.id || !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(invoice.id)) {
         throw new Error('Invalid invoice ID format');
       }
@@ -139,6 +138,10 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
         description: `Error al descargar el archivo ${type.toUpperCase()}`,
       });
     }
+  };
+
+  const formatDisplayDate = (dateString: string) => {
+    return format(parseISO(dateString), 'dd/MM/yyyy');
   };
 
   useEffect(() => {
@@ -335,7 +338,7 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
                     </button>
                   </td>
                   <td className="p-3">{invoice.number}</td>
-                  <td className="p-3">{invoice.date}</td>
+                  <td className="p-3">{formatDisplayDate(invoice.date)}</td>
                   <td className="p-3">{invoice.thirdParty}</td>
                   <td className="p-3 text-right">
                     ${invoice.total.toFixed(2)}
