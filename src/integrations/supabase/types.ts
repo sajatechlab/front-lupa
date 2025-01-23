@@ -516,42 +516,45 @@ export type Database = {
           address: string | null
           city_id: number | null
           contributor_type_id: number | null
-          created_at: string
+          created_at: string | null
           email: string | null
           fiscal_responsibility_id: number | null
-          id: string
+          id: string | null
           name: string
           nit: string
           phone: string | null
-          updated_at: string
+          type_id: string | null
+          updated_at: string | null
         }
         Insert: {
           accounting_system_id?: number | null
           address?: string | null
           city_id?: number | null
           contributor_type_id?: number | null
-          created_at?: string
+          created_at?: string | null
           email?: string | null
           fiscal_responsibility_id?: number | null
-          id?: string
+          id?: string | null
           name: string
           nit: string
           phone?: string | null
-          updated_at?: string
+          type_id?: string | null
+          updated_at?: string | null
         }
         Update: {
           accounting_system_id?: number | null
           address?: string | null
           city_id?: number | null
           contributor_type_id?: number | null
-          created_at?: string
+          created_at?: string | null
           email?: string | null
           fiscal_responsibility_id?: number | null
-          id?: string
+          id?: string | null
           name?: string
           nit?: string
           phone?: string | null
-          updated_at?: string
+          type_id?: string | null
+          updated_at?: string | null
         }
         Relationships: [
           {
