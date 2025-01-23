@@ -279,6 +279,7 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
                 type="date"
                 className="w-full px-3 py-2 border rounded-md"
                 value={filters.endDate}
+                min={filters.startDate}
                 onChange={(e) => setFilters({...filters, endDate: e.target.value})}
               />
             </div>
