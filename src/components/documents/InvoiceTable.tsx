@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronDown, ChevronUp, FileText, FileJson, Archive, Search, Filter, X } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import { startOfMonth, endOfMonth, format, parseISO } from 'date-fns';
 
 interface InvoiceTableProps {
   type: 'received' | 'sent';
@@ -14,8 +15,8 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
   const [filters, setFilters] = useState({
     number: '',
     client: '',
-    startDate: '',
-    endDate: ''
+    startDate: format(startOfMonth(new Date()), 'yyyy-MM-dd'),
+    endDate: format(endOfMonth(new Date()), 'yyyy-MM-dd')
   });
   const [invoices, setInvoices] = useState<any[]>([]);
   const [filteredInvoices, setFilteredInvoices] = useState<any[]>([]);
@@ -144,9 +145,12 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
     const filtered = invoices.filter(invoice => {
       const matchNumber = invoice.number.toLowerCase().includes(filters.number.toLowerCase());
       const matchClient = invoice.thirdParty.toLowerCase().includes(filters.client.toLowerCase());
-      const invoiceDate = new Date(invoice.date);
-      const matchStartDate = !filters.startDate || invoiceDate >= new Date(filters.startDate);
-      const matchEndDate = !filters.endDate || invoiceDate <= new Date(filters.endDate);
+      const invoiceDate = parseISO(invoice.date);
+      const startDate = filters.startDate ? parseISO(filters.startDate) : null;
+      const endDate = filters.endDate ? parseISO(filters.endDate) : null;
+      
+      const matchStartDate = !startDate || invoiceDate >= startDate;
+      const matchEndDate = !endDate || invoiceDate <= endDate;
       
       return matchNumber && matchClient && matchStartDate && matchEndDate;
     });
