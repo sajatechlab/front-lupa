@@ -44,7 +44,7 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
 
       const companyNits = companies.map(company => company.nit);
 
-      const query = supabase
+      let query = supabase
         .from('invoices')
         .select(`
           id,
@@ -55,10 +55,10 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
           total_amount,
           vendor_nit,
           buyer_nit,
-          vendors (
+          vendors!inner (
             name
           ),
-          buyers (
+          buyers!inner (
             name
           ),
           invoice_items (
@@ -74,9 +74,9 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
         .limit(10);
 
       if (type === 'received') {
-        query.in('buyer_nit', companyNits);
+        query = query.in('buyer_nit', companyNits);
       } else {
-        query.in('vendor_nit', companyNits);
+        query = query.in('vendor_nit', companyNits);
       }
 
       const { data: invoicesData, error } = await query;
@@ -87,7 +87,7 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
         id: invoice.id,
         number: `${invoice.invoice_prefix}-${invoice.invoice_number}`,
         date: invoice.issue_date,
-        thirdParty: type === 'received' ? invoice.vendors?.name || 'N/A' : invoice.buyers?.name || 'N/A',
+        thirdParty: type === 'received' ? invoice.vendors.name : invoice.buyers.name,
         total: invoice.total_amount,
         status: invoice.due_date && new Date(invoice.due_date) < new Date() ? 'Pendiente' : 'Pagada',
         details: invoice.invoice_items

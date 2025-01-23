@@ -398,6 +398,13 @@ export type Database = {
             referencedColumns: ["nit"]
           },
           {
+            foreignKeyName: "fk_vendor_nit"
+            columns: ["vendor_nit"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["nit"]
+          },
+          {
             foreignKeyName: "invoices_company_id_fkey"
             columns: ["company_id"]
             isOneToOne: false
