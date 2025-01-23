@@ -170,6 +170,24 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
     });
   };
 
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newStartDate = e.target.value;
+    const currentEndDate = filters.endDate;
+    
+    if (newStartDate > currentEndDate) {
+      setFilters({
+        ...filters,
+        startDate: newStartDate,
+        endDate: newStartDate
+      });
+    } else {
+      setFilters({
+        ...filters,
+        startDate: newStartDate
+      });
+    }
+  };
+
   const toggleRow = (id: string) => {
     const newExpandedRows = new Set(expandedRows);
     if (expandedRows.has(id)) {
@@ -269,7 +287,7 @@ export const InvoiceTable = ({ type }: InvoiceTableProps) => {
                 type="date"
                 className="w-full px-3 py-2 border rounded-md"
                 value={filters.startDate}
-                onChange={(e) => setFilters({...filters, startDate: e.target.value})}
+                onChange={handleStartDateChange}
               />
             </div>
             
