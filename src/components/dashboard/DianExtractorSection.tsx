@@ -1,24 +1,51 @@
-import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ExternalLink } from "lucide-react";
+import React, { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { ExternalLink } from 'lucide-react'
 
 const DianExtractorSection = () => {
-  const [dianUrl, setDianUrl] = useState('');
-  const [startDate, setStartDate] = useState('');
+  const [dianUrl, setDianUrl] = useState('')
+  const [startDate, setStartDate] = useState('')
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log({ dianUrl, startDate });
-  };
+    e.preventDefault()
+    const formattedStartDate = startDate.replace(/-/g, '/')
+    const today = new Date()
+    const formattedEndDate = today
+      .toISOString()
+      .split('T')[0]
+      .replace(/-/g, '/')
+
+    console.log({
+      dianUrl,
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+    })
+    fetch('http://localhost:7042/tabledownload/full', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        authUrl: dianUrl,
+        startDate: formattedStartDate,
+        endDate: formattedEndDate,
+        recibidos: true,
+        enviados: true,
+      }),
+    })
+  }
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-2 text-foreground">Procesar Extracto DIAN</h2>
+        <h2 className="text-2xl font-bold mb-2 text-foreground">
+          Procesar Extracto DIAN
+        </h2>
         <p className="text-muted-foreground">
-          Ingrese la URL de la DIAN y seleccione una fecha de inicio para comenzar a procesar su extracto.
+          Ingrese la URL de la DIAN y seleccione una fecha de inicio para
+          comenzar a procesar su extracto.
         </p>
       </div>
 
@@ -82,7 +109,7 @@ const DianExtractorSection = () => {
         </Button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default DianExtractorSection;
+export default DianExtractorSection
