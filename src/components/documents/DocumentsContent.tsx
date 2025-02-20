@@ -1,21 +1,21 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { InvoiceTable } from "./InvoiceTable";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { InvoiceTable } from './InvoiceTable'
 
 export const DocumentsContent = () => {
   return (
     <div className="flex-1 p-8 bg-background text-foreground transition-colors duration-200">
-      <Tabs defaultValue="received" className="w-full">
+      <Tabs defaultValue="RECEIVED" className="w-full">
         <TabsList className="mb-4">
-          <TabsTrigger value="received">Recibidos</TabsTrigger>
-          <TabsTrigger value="sent">Enviados</TabsTrigger>
+          <TabsTrigger value="RECEIVED">Recibidos</TabsTrigger>
+          <TabsTrigger value="SENT">Enviados</TabsTrigger>
         </TabsList>
-        <TabsContent value="received">
-          <InvoiceTable type="received" />
+        <TabsContent value="RECEIVED">
+          <InvoiceTable type="RECEIVED" />
         </TabsContent>
-        <TabsContent value="sent">
-          <InvoiceTable type="sent" />
+        <TabsContent value="SENT">
+          <InvoiceTable type="SENT" />
         </TabsContent>
       </Tabs>
     </div>
-  );
-};
+  )
+}

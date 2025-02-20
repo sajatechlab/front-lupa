@@ -1,32 +1,83 @@
-import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import axios from 'axios'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  PropsWithChildren,
+} from 'react'
+import { CircularProgress } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import config from '../config'
+type User = {
+  id: string
+  email: string
+  role: string
+  first_name: string
+  last_name: string
+  token?: string
+}
 
-export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+interface AuthContextProps {
+  user: User | null
+  setUser: React.Dispatch<React.SetStateAction<User | null>>
+  loading: boolean
+}
+
+const AuthContext = createContext<AuthContextProps>({
+  user: null,
+  setUser: () => null,
+  loading: true,
+})
+
+export const AuthProvider = ({ children }: PropsWithChildren) => {
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
+
+  const fetchSession = async () => {
+    try {
+      const response = await axios.get(`${config.API_URL}/auth/session`, {
+        withCredentials: true,
+      })
+      setUser(response.data)
+    } catch (error) {
+      console.error('Error fetching session:', error)
+      setUser(null)
+      navigate('/login')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setIsAuthenticated(!!session);
-    };
+    fetchSession()
+  }, [])
 
-    checkAuth();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsAuthenticated(!!session);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  if (isAuthenticated === null) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <CircularProgress />
+      </div>
+    )
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (!user) {
+    navigate('/login')
+    return null
   }
 
-  return <>{children}</>;
-};
+  return (
+    <AuthContext.Provider value={{ user, setUser, loading }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+export const useAuth = () => {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+  return context
+}

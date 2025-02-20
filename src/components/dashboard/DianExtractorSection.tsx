@@ -3,10 +3,21 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ExternalLink } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import config from '../../config'
+interface Company {
+  id: string
+  name: string
+  nit: string
+}
 
 const DianExtractorSection = () => {
   const [dianUrl, setDianUrl] = useState('')
   const [startDate, setStartDate] = useState('')
+
+  const { data: selectedCompany } = useQuery<Company>({
+    queryKey: ['selectedCompany'],
+  })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -17,12 +28,12 @@ const DianExtractorSection = () => {
       .split('T')[0]
       .replace(/-/g, '/')
 
-    console.log({
-      dianUrl,
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
-    })
-    fetch('http://localhost:7042/tabledownload/full', {
+    if (!selectedCompany?.nit) {
+      alert('Please select a company first')
+      return
+    }
+
+    fetch(`${config.API_URL}/table-download`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,6 +44,7 @@ const DianExtractorSection = () => {
         endDate: formattedEndDate,
         recibidos: true,
         enviados: true,
+        nit: selectedCompany.nit,
       }),
     })
   }
@@ -47,6 +59,11 @@ const DianExtractorSection = () => {
           Ingrese la URL de la DIAN y seleccione una fecha de inicio para
           comenzar a procesar su extracto.
         </p>
+        {selectedCompany && (
+          <p className="text-sm text-muted-foreground mt-2">
+            Empresa seleccionada: {selectedCompany.name} - {selectedCompany.nit}
+          </p>
+        )}
       </div>
 
       <div className="mb-8 aspect-video bg-card rounded-lg overflow-hidden">
